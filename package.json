@@ -27,6 +27,7 @@
     "typescript": "^5.8.3"
   },
   "devDependencies": {
+    "@react-native/metro-config": "^0.80.1",
     "babel-plugin-module-resolver": "^5.0.2"
   }
 }
