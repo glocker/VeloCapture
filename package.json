@@ -3,6 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "server": "cd api && uvicorn main:app --reload --port 8000",
+    "client": "cd app && npx expo start"
   },
   "dependencies": {
   },
