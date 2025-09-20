@@ -1,20 +1,25 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { View, Text, Pressable } from "react-native";
+import { router } from "expo-router";
+import { signInWithStrava } from "./lib/auth";
 
-export default function App() {
+// Auth screen
+export default function Index() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center", gap: 16 }}>
+    <Text style={{ fontSize: 24, fontWeight: "600" }}>Strava Territory</Text>
+    <Pressable
+      onPress={async () => {
+        try {
+          await signInWithStrava();
+          router.replace("/(tabs)/home");
+        } catch (e) {
+          console.warn(e);
+        }
+      }}
+      style={{ paddingHorizontal: 20, paddingVertical: 12, backgroundColor: "#fc4c02", borderRadius: 12 }}
+      >
+      <Text style={{ color: "white", fontWeight: "600" }}>Войти через Strava</Text>
+  </Pressable>
+  </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
