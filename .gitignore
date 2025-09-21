@@ -3,3 +3,5 @@ node_modules
 .env
 .venv
 .idea
+__pycache__/
+*.pyc

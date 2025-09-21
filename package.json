@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "server": "cd api && uvicorn main:app --reload --port 8000",
+    "server:install": "python3 -m venv api/.venv && api/.venv/bin/pip install -r api/dependencies.txt",
+    "server": "api/.venv/bin/uvicorn main:app --reload --port 8000 --app-dir api",
     "client": "cd app && npx expo start"
   },
   "dependencies": {

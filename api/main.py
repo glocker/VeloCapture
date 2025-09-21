@@ -4,10 +4,22 @@ import os, math, datetime as dt
 import polyline as poly
 import psycopg
 from psycopg.rows import dict_row
+from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
+from auth_strava import router as strava_router
 
 load_dotenv()
 app = FastAPI()
+app.include_router(strava_router, prefix="/auth/strava")
+
+# enable CORS for Expo/Web
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # ["http://localhost:8081", "exp://*", "http://127.0.0.1:*"]
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 DB_URL = os.getenv("DATABASE_URL")
 Z = int(os.getenv("GRID_ZOOM", 18))
