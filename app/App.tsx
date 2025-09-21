@@ -6,7 +6,7 @@ import { signInWithStrava } from "./lib/auth";
 export default function Index() {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center", gap: 16 }}>
-    <Text style={{ fontSize: 24, fontWeight: "600" }}>Strava Territory</Text>
+    <Text style={{ fontSize: 24, fontWeight: "600" }}>VeloCapture</Text>
     <Pressable
       onPress={async () => {
         try {
