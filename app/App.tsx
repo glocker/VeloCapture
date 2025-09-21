@@ -18,7 +18,7 @@ export default function Index() {
       }}
       style={{ paddingHorizontal: 20, paddingVertical: 12, backgroundColor: "#fc4c02", borderRadius: 12 }}
       >
-      <Text style={{ color: "white", fontWeight: "600" }}>Войти через Strava</Text>
+      <Text style={{ color: "white", fontWeight: "600" }}>Log in with Strava</Text>
   </Pressable>
   </View>
   );
