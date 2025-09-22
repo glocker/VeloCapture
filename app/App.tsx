@@ -1,4 +1,4 @@
-import { View, Text, Pressable } from "react-native";
+import { Alert, View, Text, Pressable } from "react-native";
 import { router } from "expo-router";
 import { signInWithStrava } from "./lib/auth";
 
@@ -13,6 +13,10 @@ export default function Index() {
           await signInWithStrava();
           router.replace("/(tabs)/home");
         } catch (e) {
+          Alert.alert(
+            "Log in error",
+            e?.message || "Can't log in with Strava. Check connection and application settings."
+          );
           console.warn(e);
         }
       }}
