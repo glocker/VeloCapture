@@ -10,6 +10,7 @@ export default function Index() {
     <Pressable
       onPress={async () => {
         try {
+          // Exchange token
           await signInWithStrava();
           router.replace("/(tabs)/home");
         } catch (e) {
