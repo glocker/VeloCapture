@@ -33,11 +33,23 @@ export async function signInWithStrava() {
 
   await request.makeAuthUrlAsync({ authUrl });
 
+  console.log("redirectUri:", redirectUri);
+  console.log("authUrl:", authUrl);
+
   const result = await request.promptAsync({ useProxy: true });
 
+  console.log("promptAsync result:", result);
+
   if (result.type !== "success" || !result.params?.code) {
+    console.log("auth failed, type:", result.type);
     throw new Error("Strava auth canceled or failed");
   }
+
+  console.log("Sending to backend:", {
+    code: result.params?.code,
+    redirect_uri: redirectUri,
+    code_verifier: request.codeVerifier,
+  });
 
   // Put code and code_verifier to backend to get token
   const r = await fetch(`${Constants.expoConfig?.extra?.apiBaseUrl}/auth/strava/exchange`, {

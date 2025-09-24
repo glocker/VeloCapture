@@ -11,7 +11,8 @@ export default function Index() {
       onPress={async () => {
         try {
           // Exchange token
-          await signInWithStrava();
+          const { token, user } = await signInWithStrava();
+          console.log('user:', user);
           router.replace("/(tabs)/home");
         } catch (e) {
           Alert.alert(
