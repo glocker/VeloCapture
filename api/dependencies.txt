@@ -4,3 +4,4 @@ httpx
 python-dotenv
 psycopg[binary]
 polyline
+pyjwt>=2.0
