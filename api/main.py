@@ -7,6 +7,8 @@ from psycopg.rows import dict_row
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 from auth_strava import router as strava_router
+import logging
+from typing import Optional
 
 load_dotenv()
 app = FastAPI()
@@ -20,6 +22,20 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+logger = logging.getLogger("uvicorn.error")
+
+# Logging
+@app.middleware("http")
+async def log_requests(request, call_next):
+    logger.info(f"➡️ {request.method} {request.url}")
+    try:
+        response = await call_next(request)
+    except Exception as e:
+        logger.exception(f"Exception handling {request.url}: {e}")
+        raise
+    logger.info(f"⬅️ {request.method} {request.url} -> {response.status_code}")
+    return response
 
 DB_URL = os.getenv("DATABASE_URL")
 Z = int(os.getenv("GRID_ZOOM", 18))
@@ -125,7 +141,13 @@ def import_activity(body: ActivityIn):
     return {"imported": True, "cells_added": len(cells)}
 
 @app.get("/cells/by-bbox")
-def cells_by_bbox(user_id: str, min_lat: float, min_lng: float, max_lat: float, max_lng: float):
+def cells_by_bbox(
+    user_id: str,
+    min_lat: Optional[float] = None,
+    min_lng: Optional[float] = None,
+    max_lat: Optional[float] = None,
+    max_lng: Optional[float] = None,
+):
     # MVP: return all user cells (filter by bbox can add later)
     with get_conn() as conn:
         with conn.cursor() as cur:

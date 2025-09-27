@@ -3,6 +3,7 @@
     "name": "VeloCapture",
     "slug": "velocapture",
     "owner": "glocker",
+    "plugins": ["expo-router"],
     "scheme": "myapp",
     "version": "1.0.0",
     "orientation": "portrait",
