@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 from auth_strava import router as strava_router
 import logging
 from typing import Optional
+from utils.db import get_conn
 
 load_dotenv()
 app = FastAPI()
@@ -37,14 +38,8 @@ async def log_requests(request, call_next):
     logger.info(f"⬅️ {request.method} {request.url} -> {response.status_code}")
     return response
 
-DB_URL = os.getenv("DATABASE_URL")
 Z = int(os.getenv("GRID_ZOOM", 18))
 CELL_SIZE_M = int(os.getenv("GRID_STEP_M", 100))
-
-# --- DB utils ---
-
-def get_conn():
-    return psycopg.connect(DB_URL, row_factory=dict_row)
 
 # --- Models ---
 class ActivityIn(BaseModel):
