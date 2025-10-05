@@ -45,3 +45,8 @@ export async function getLeaderboard() {
     const r = await fetch(`${BASE}/leaderboard`);
     return r.json();
 }
+
+export async function getStats(userId: string) {
+    const r = await fetch(`${BASE}/stats?user_id=${userId}`);
+    return r.json();
+}

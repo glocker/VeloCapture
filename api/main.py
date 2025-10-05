@@ -166,3 +166,43 @@ def leaderboard(limit: int = 20):
             )
             rows = cur.fetchall()
     return {"items": rows}
+
+@app.get("/stats")
+def get_user_stats(user_id: str):
+    with get_conn() as conn:
+        with conn.cursor() as cur:
+            # get base stats from user_stats
+            cur.execute(
+                """
+                SELECT cells_count, area_km2, updated_at
+                FROM user_stats
+                WHERE user_id = %s
+                """,
+                (user_id,)
+            )
+            stats = cur.fetchone()
+
+            # calculate summary distance by rides
+            cur.execute(
+                """
+                SELECT COALESCE(SUM(distance_m), 0) AS total_distance_m
+                FROM activities
+                WHERE user_id = %s
+                """,
+                (user_id,)
+            )
+            dist = cur.fetchone()["total_distance_m"]
+
+    if not stats:
+        return {
+            "cells_count": 0,
+            "area_km2": 0,
+            "total_distance_km": round(dist / 1000, 2),
+        }
+
+    return {
+        "cells_count": stats["cells_count"],
+        "area_km2": round(stats["area_km2"], 2),
+        "total_distance_km": round(dist / 1000, 2),
+        "updated_at": stats["updated_at"],
+    }
